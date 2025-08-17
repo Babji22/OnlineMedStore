@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./home.css">
+</head>
+<body>
+<div id="datadeals" th:each="drug:${alldrugs}">
+
+    <div id="today_deals">
+        <h2>Today's Deals</h2>
+        <div id="products">
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(0).name}></h3>
+            <h3 th:text="${alldrugs.get(0).price}"></h3>
+            <form action="addcart"><input id="AC" type="button" value="Add to Cart"></form>
+            <a href=""><input id="MD" type="button" value="More Details"></a>
+            </div>
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a>
+            </div>
+            <div id="p1">
+                <img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a>
+            </div>
+            <div id="p1">
+                <img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a>
+            </div>
+        </div>
+    </div>
+
+    <div id="New_Releases">
+        <h2>New Releases</h2>
+        <div id="products">
+            <div id="p1"><img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a></div>
+            <div id="p1"><img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a></div>
+            <div id="p1"><img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a></div>
+            <div id="p1"><img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a></div>
+        </div>
+    </div>
+
+    <div id="Best_Prices">
+        <h2>Best Prices</h2>
+        <div id="products">
+            <div id="p1"><img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a></div>
+            <div id="p1"><img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a></div>
+            <div id="p1"><img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a></div>
+            <div id="p1"><img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a></div>
+        </div>
+    </div>
+
+    <div id="Regular_medicines">
+        <h2>Regular medicines</h2>
+        <div id="products">
+            <div id="p1"><img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a></div>
+            <div id="p1"><img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a></div>
+            <div id="p1"><img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a></div>
+            <div id="p1"><img src="/lp-1.jpg" alt="">
+                <h3>ABC</h3>
+            <h3>Price:50/-</h3>
+            <a href=""><input id="AC" type="button" value="Add to Cart"></a>
+            <a href=""><input id="MD" type="button" value="More Details"></a></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Responsive Registration Form | CodingLab </title>
+  <link rel="stylesheet" href="/Register.css">
+  <script type="text/javascript" th:src="@{/Admin.js}"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Title section -->
+    <div class="title">Update Medicine Details</div>
+    <div class="content">
+      <form action="/drug/editdrug">
+        <input id="name" type="text" th:value="${drugdata.id}" hidden="true" name="id" required>
+        <div class="user-details">
+          <!--  Input for Full Name -->
+          <div class="input-box">
+            <span class="details">Medicine name</span>
+            <input id="name" type="text" th:value="${drugdata.name}" placeholder="Enter Medicine name" name="name" required>
+          </div>
+         
+          <!-- Input for Email -->
+          <div class="input-box">
+            <span class="details">company name</span>
+            <input id="email" type="text" th:value="${drugdata.company}" placeholder="Enter company name" name="company" required>
+          </div>
+          <!-- Input for Password -->
+          <div class="input-box">
+            <span class="details">Category or Type</span>
+            <input id="password" type="text" th:value="${drugdata.type}" placeholder="Enter Category or Type" name="type" required>
+          </div>
+          <!-- Input for Phone Number -->
+          <div class="input-box">
+            <span class="details">Medicine price</span>
+            <input id="phonenumber" type="text" th:value="${drugdata.price}" placeholder="Enter Medicine price" name="price" required>
+          </div>
+          
+          <div class="input-box">
+            <span class="details">Quantity</span>
+            <input id="street" type="text" th:value="${drugdata.quantity}" placeholder="Enter Quantity" name="quantity">
+          </div>
+          <div class="input-box">
+            <span class="details">your Ratings</span>
+            <input id="street" type="text" th:value="${drugdata.rating}" placeholder="Enter your Ratings" name="rating">
+          </div>
+          <!--<div class="input-box">
+            <span class="details">Banned</span>
+            <select name="val" id="val">
+              <option id="Admin" value="true" name="banned">Yes</option>
+              <option id="member" value="false" name="banned">No</option>
+            </select>
+          </div>-->
+          <div class="category">
+        	<select name="val" id="val">
+          <option id="true" th:value="${drugdata.banned}" name="banned">Yes</option>
+          <option id="false" th:value="${drugdata.banned}" name="banned">No</option>
+        </select>
+        
+</div>
+        </div> 
+
+        
+        
+        <div class="button">
+          <input type="submit" value="Update" >
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

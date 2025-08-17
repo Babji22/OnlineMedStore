@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/cart.css}">
+    <script th:src="@{/Admin.js}" defer></script>
+    <script th:src="@{/Cart.js}" defer></script>
+</head>
+<body>
+ <div id="products" >
+    
+    <div id="cartcontainer"><h3 id="c">Cart Details</h3></div>
+    <form id="mylist" action="/member/order" method="post">
+    <input name="id" th:value="${memberid}" hidden="true">
+    <table id="carttable" >
+        <tr id="container3" >
+            
+                <td id="label1" colspan="3"><h2 id="p">Products</h2></td>
+                <!-- <td id="label1"></td> -->
+                <td id="label2"><h2 id="v">Price</h2></td>
+                <td id="label2"><h2 id="v">Quantity</h2></td>
+                <td id="label2"><h2 id="v">Total</h2></td>  
+           
+        </tr>
+        <tr id="product" th:each="drugs:${cartdrugs}">
+            <!-- <td id="label1">,'+'${drugs.price}'+' -->
+            <td id="checkbox" style="width: 40px;height: 100%"><center>
+            <input th:id="${drugs.name}" type="checkbox" th:value="${drugs.id}" style="height: 20px;width: 20px" onclick="orderlist(value,this.id)">
+            </center></td>
+                <td><img id="im" src="/lp-1.jpg" alt=""></td>
+                <td id="details1"><h3 id="da" th:text="${drugs.name}"> </h3></td>
+            <!-- </td> --> 
+            
+            
+            <td id="price"><h3 id="db" th:text="${drugs.price}"></h3></td>
+            <td id="quantity">
+            <div id="d1">
+                
+                <div id="va3"><input th:class="${drugs.id}"  type="button" value="-" disabled="disabled" th:onclick="'dec('+${drugs.quantity}+','+${drugs.price}+','+${drugs.id}+')'"></div>
+                <div id="va2"><input th:name="${drugs.id}" type="text" value="1"  readonly ></div>
+                <div id="va1"><input th:class="${drugs.id}" type="button" value="+" disabled="disabled" th:onclick="'inc('+${drugs.quantity}+','+${drugs.price}+','+${drugs.id}+')'"></div>
+            </div>
+        </td>
+            <td id="total"><h3 th:name="${drugs.id}" th:text="${drugs.price}" ></h3></td>
+        </tr>
+    </table>
+    
+    <div id="carttotal">
+        <div id="promocode"><label for="">Promo Code</label><input id="promo"  type="text" placeholder="    Enter promo code"></div>
+        
+        <div id="totalprice"><label for="">Total</label><input id="totalpromo" name="totalorder" type="text" value="0" readonly></div>
+        <div id="checkout"><input id="pr" type="submit" value="Check Out" onclick="submitorder()"></div>
+        
+    </div>
+    </form>
+  </div>  
+
+<div id="footer">
+    
+    <div id="up">
+        <div id="space"></div>
+        <div id="info">
+            <h2 id="insta">Instamart</h2>
+            <h5>Address: 60-49 Road 11378 New</h5>
+            <h5>York</h5>
+            <h5>Phone: +65 11.188.888</h5>
+            <h5>Email: hello@colorlib.com</h5>
+        </div>
+        <div id="link1">
+            <h2 id="link">Useful links</h2>
+            <h5>About us</h5>
+            <h5>About our Shop</h5>
+            <h5>Secure Shopping</h5>
+            <h5>Delivery Information</h5>
+            <h5>Privacy Policy</h5>
+            <h5>On Sitemap</h5>
+        </div>
+        <div id="link2">
+            <h5>Who We Are</h5>
+            <h5>Our Services</h5>
+            <h5>Projects</h5>
+            <h5>Contacts</h5>
+            <h5>Innovation</h5>
+            <h5>testimonials</h5>
+        </div>
+        <div id="share">
+            <h2 id="link">Join Our Newsletter Now</h2>
+            <h5>Get E-mail updates about our latest shop and special offers.</h5>
+            <div id="email"><input  type="email" placeholder="Enter Your Email"></div>
+            <div id="subscribe"><input  type="button" value="SUBSCRIBE"></div>
+        </div>
+    </div>
+    <div id="bottom">
+
+    </div>
+</div>
+</body>
+</html>

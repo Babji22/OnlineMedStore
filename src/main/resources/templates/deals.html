@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/home.css}">
+<script type="text/javascript" th:src="@{/Admin.js}"></script>
+</head>
+<body>
+<div id="datadeals">
+
+    <div id="today_deals">
+        <h2>Today's Deals</h2>
+        <div id="products">
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(0).name}></h3>
+            <h3 th:text="${alldrugs.get(0).price}">/-</h3>
+            
+            <!--<input id="AC" type="submit" value="Add to Cart" th:onclick="'cartmethod('+${alldrugs.get(0).id}+,'+${member.id}+')'" >
+            
+            -->
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(0).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" ></form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(2).name}></h3>
+            <h3 th:text="${alldrugs.get(2).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(2).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+        </div>
+    </div>
+
+    <div id="New_Releases">
+        <h2>New Releases</h2>
+        <div id="products">
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+        </div>
+    </div>
+
+    <div id="Best_Prices">
+        <h2>Best Prices</h2>
+        <div id="products">
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            
+        </div>
+    </div>
+
+    <div id="Regular_medicines">
+        <h2>Regular medicines</h2>
+        <div id="products">
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+            
+            
+            <div id="p1">
+            <img src="/lp-1.jpg" alt="">
+            <h3 th:text=${alldrugs.get(1).name}></h3>
+            <h3 th:text="${alldrugs.get(1).price}"></h3>
+            
+            <form id="forms" action="addcart" method="post">
+            <input  hidden="true" name="drugid" th:value="${alldrugs.get(1).id}">
+            <input  hidden="true" name="memberid" th:value="${member}">
+            <input id="AC" type="submit" value="Add to Cart" >
+            </form>
+            <form id="dealdetails">
+            <input id="MD" type="button" value="More Details"></form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

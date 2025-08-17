@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Responsive Registration Form | CodingLab </title>
+  <link rel="stylesheet" href="./login.css">
+  <script src="/Admin.js" defer></script>
+<body>
+  <div class="container">
+    <!-- Title section -->
+     <center>
+    <div class="title">Log in</div>
+    
+    
+    <div class="content">
+      <!-- Registration form -->
+      
+      <form action="login">
+        <!-- <center> -->
+          <span >Choose Option</span>
+          <center>
+          
+          <div class="category">
+          
+        <select name="val" id="val">
+          <option id="Admin" value="Admin" name="val">Admin</option>
+          <option id="member" value="member" name="val">member</option>
+        </select>
+      </div>
+        <div class="user-details">
+          <!-- Input for Email -->
+          <div class="input-box">
+            <span class="details">Email</span>
+            <input id="email" type="text" placeholder="Enter your email" required name="email">
+          </div>
+        </div>
+          <div class="user-details">
+          <div class="input-box">
+            <span class="details">Password</span>
+            <input id="password" type="text" placeholder="Enter your password" required  name="password">
+          </div>
+        </div>
+        
+      <!-- </center> -->
+        <div class="button" >
+          <input type="submit" value="login">
+        </div>
+        <span>Don't have Account. Click on</span>
+        <a href="./Registerpath.html">Register</a>
+      </center>
+      </form>
+    </div>
+  </div>
+</center>
+</body>
+</html>

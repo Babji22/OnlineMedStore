@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Responsive Registration Form | CodingLab </title>
+  <link rel="stylesheet" th:href="@{/Register.css}">
+  <script type="text/javascript" th:src="@{/Admin.js}"></script>
+  
+</head>
+<body >
+  <div class="container" >
+    <!-- Title section -->
+    <div class="title">Update Your Details</div>
+    <div class="content">
+      <form th:action="@{/member/getmember/updatemember/{id}/{val}(id=${memberdata.id},val=${val})}" >
+        <div class="user-details" >
+          <div class="input-box" >
+            <span class="details">Name</span>
+            <input id="name" type="text" th:value="${memberdata.name}"  placeholder="Enter your name" name="name" required readonly>
+          </div>
+          <div class="input-box">
+            <span class="details">Email</span>
+            <input id="email" type="text" th:value="${memberdata.email}"  placeholder="Enter your email" name="email" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Password</span>
+            <input id="password" type="text" th:value="${memberdata.password}"  placeholder="Enter your password" name="password" required>
+          </div>
+          <!-- Input for Phone Number -->
+          <div class="input-box">
+            <span class="details">Phone Number</span>
+            <input id="phonenumber" type="text" th:value="${memberdata.mobilenumber}"  placeholder="Enter your number" name="mobilenumber" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Date Of Birth</span>
+            <input id="date" type="date" th:value="${memberdata.date}"  name="date">
+          </div>
+          <!-- Input for Confirm Password -->
+          <!-- <div class="input-box">
+            <span class="details">Address</span>
+            <input type="text" placeholder="Enter Your Address" required>
+          </div>
+          <input id="street" hidden="true" th:field="*{address.}" placeholder="Enter your Street" name="street">-->
+          <div class="input-box" >
+            <span class="details">Street</span>
+            <input id="street" type="text" th:value="${memberdata.address.street}"  placeholder="Enter your Street" name="street">
+          </div>
+          <div class="input-box">
+            <span class="details">City</span>
+            <input id="city" type="text" th:value="${memberdata.address.city}"  placeholder="Enter your City" name="city" >
+          </div>
+          <div class="input-box">
+            <span class="details">State</span>
+            <input id="state" type="text" th:value="${memberdata.address.state}"  placeholder="Enter your state" name="state">
+          </div>
+          <div class="input-box">
+            <span class="details">Country</span>
+            <input id="country" type="text" th:value="${memberdata.address.country}"  placeholder="Enter your country" name="country">
+          </div>
+          <div class="input-box">
+            <span class="details">Pincode</span>
+            <input id="pincode" type="text" th:value="${memberdata.address.pincode}" placeholder="Enter your pincode" name="pincode">
+          </div>
+          
+          <div class="input-box">
+            <span class="details">Enabled</span>
+            <input id="enabled" type="text" th:value="${memberdata.disabled}" name="pincode">
+          </div>
+  
+        
+        
+        
+        <div>
+          <!-- Radio buttons for gender selection -->
+          <input type="radio" name="male" id="dot-1" th:value="${memberdata.gender}">
+          <input type="radio" name="female" id="dot-2" th:value="${memberdata.gender}">
+          <input type="radio" name="other" id="dot-3" th:value="${memberdata.gender}">
+          
+         <!-- <span class="gender-title">Gender</span>
+     
+          <div class="category">
+            <!-- Label for Male 
+            <label for="dot-1" value="male">
+              <span class="dot one" value="male"></span>
+              <span class="gender" name="male" th:value="${memberdata.gender}">Male</span>
+            </label>
+            <!-- Label for Female 
+            <label for="dot-2">
+              <span class="dot two" name="female"></span>
+              <span class="gender" name="female" th:value="${memberdata.gender}">Female</span>
+            </label>
+            <!-- Label for Prefer not to say 
+            <label for="dot-3">
+              <span class="dot three"></span>
+              <span class="gender">Prefer not to say</span>
+            </label>
+          </div> 
+          <input class="gender" type="radio" th:value="${memberdata.gender}" name="male">-->
+           <select name="val" id="val">
+          <option id="male" th:value="${memberdata.gender}" name="gender">Male</option>
+          <option id="female" th:value="${memberdata.gender}" name="gender">Female</option>
+        </select>
+        </div>
+
+        
+        
+        <div class="button">
+          <input type="submit" value="Update">
+        </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

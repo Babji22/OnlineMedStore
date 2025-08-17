@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/Admin.css}">
+    <script type="text/javascript" th:src="@{/Admin.js}"></script>
+</head>
+<body th:each="member:${memberlogin}">
+    <!-- <div id="container">
+
+    </div> -->
+    <div id="container1">
+        <div id="logo">
+            <h1>MedStore</h1>
+        </div>
+        <div id="options">
+            <div id="choice" >
+                <div id="select"><input id="Dashboard" type="button" value="Dashboard" th:onclick="'memberdata('+${member.id}+')'"></div>
+                <div id="select">
+                <!-- <form action="getmember"> 
+                <input hidden="true" name="id" th:value=${member.id}>-->
+                <input id="buttons2" name="id" type="submit" value="Edit Details" th:onclick="'memberfun('+${member.id}+',1)'"></div>
+                <div id="select"><input id="buttons3"type="submit" value="Order Details" th:onclick="'orderfun('+${member.id}+',1)'" ></div>
+                <div id="select">
+                <!--  <form action="cartdetails">
+                <input hidden="true" name="memberid" th:value="${member.id}" >
+                <input hidden="true" name="value" value=1 >-->
+                <input id="buttons4"type="submit" value="Cart Details" th:onclick="'cartfun('+${member.id}+',1)'" >
+                <!--<form action="cartdetails" method="GET">
+        		<input name="value"   hidden="true" value=1>
+        		<input name="memberid"   hidden="true" th:value="${member.id}">
+        		<input id="buttons4"   type="submit" value="Cart Details">
+        		</form>-->
+                </div>
+                <div id="select"><input id="buttons5"type="button" value="Payment Details" onclick="data(this.id)"></div>
+                <div id="select">
+                 <form action="logout"> 
+                <!--<a href="./home.html">-->
+                <input id="buttons6" type="submit" value="Log out"></form></div>
+            </div>
+        </div>
+    </div>
+    <div id="container2" >
+        <div id="name" >
+            <h2 th:text=${member.name}>
+                
+            </h2>
+        </div>
+    </div>
+    <div id="container3">
+        <iframe id="dash" src="" frameborder="0" ></iframe>
+        
+    </div>
+</body>
+</html>
