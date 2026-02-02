@@ -1,32 +1,22 @@
 package com.jsp.OnlineMedStore.entity;
 
-import java.util.List;
-
+import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Ordered 
-{
+public class Cart {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer cartId;
 	private Integer memberId;
 	private Integer drugId;
 	private String drugName;
 	private Integer quantity;
-//	@OneToMany
-//	List<Drug> drugs;
-	private Double orderAmount;
-	private Boolean orderStatus;
-
+	private Double price;
 }

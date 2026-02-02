@@ -1,13 +1,19 @@
 package com.jsp.OnlineMedStore.Service;
 
+import java.rmi.NotBoundException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.jsp.OnlineMedStore.DAO.AddressDAO;
+import com.jsp.OnlineMedStore.DTO.AddressDTO;
+import com.jsp.OnlineMedStore.DTO.MemberDTO;
+import com.jsp.OnlineMedStore.Exception.NotFoundException;
+import com.jsp.OnlineMedStore.Repository.AddressRepository;
 import com.jsp.OnlineMedStore.Util.SuccessResponce;
 import com.jsp.OnlineMedStore.entity.Address;
 import com.jsp.OnlineMedStore.entity.Member;
@@ -17,34 +23,77 @@ public class AddressService
 {
 
 	@Autowired
-	AddressDAO addressDAO;
+	AddressRepository addressRepository;
 	
-	public ResponseEntity<SuccessResponce> saveAddress(Address address)
+	public Address saveAddress(AddressDTO addressDTO)
 	{
-		SuccessResponce save=SuccessResponce.builder().status(HttpStatus.CREATED.value()).datatime(LocalDateTime.now()).message("Members Address details saved").data(addressDAO.saveAddress(address)).build();
-		return new ResponseEntity<SuccessResponce>(save, HttpStatus.CREATED);
-	}
-
-	public ResponseEntity<SuccessResponce> updateAddress(Address address) {
-		SuccessResponce update=SuccessResponce.builder().status(HttpStatus.ACCEPTED.value()).datatime(LocalDateTime.now()).message("Address details updated").data(addressDAO.updateAddress(address)).build();
-		return new ResponseEntity<SuccessResponce>(update, HttpStatus.ACCEPTED);
-	}
-
-	public ResponseEntity<SuccessResponce> deleteAddress(int id) {
-		SuccessResponce delete=SuccessResponce.builder().status(HttpStatus.OK.value()).datatime(LocalDateTime.now()).message("Address details deleted").data(addressDAO.deleteAddress(id)).build();
-		return new ResponseEntity<SuccessResponce>(delete, HttpStatus.OK);
-	}
-
-	public ResponseEntity<SuccessResponce> findAddress(int id) 
-	{
-		SuccessResponce find=SuccessResponce.builder().status(HttpStatus.FOUND.value()).datatime(LocalDateTime.now()).message("Address details found").data(addressDAO.findAddress(id)).build();
-		return new ResponseEntity<SuccessResponce>(find, HttpStatus.FOUND);
+		return addressRepository.save(fromDTOToEntity(addressDTO));
 	}
 	
-	public ResponseEntity<SuccessResponce> findAllAddress() 
+	public AddressDTO updateAddress(AddressDTO addressDTO)
 	{
-		SuccessResponce findall=SuccessResponce.builder().status(HttpStatus.FOUND.value()).datatime(LocalDateTime.now()).message("Members details saved").data(addressDAO.findAllAddress()).build();
-		return new ResponseEntity<SuccessResponce>(findall, HttpStatus.FOUND);
+		for (Address address : addressRepository.findAll()) {
+			if(address.getId()==addressDTO.getId())
+			{
+				Address storedAddress=addressRepository.save(fromDTOToEntity(addressDTO));
+				return fromEntityToDTO(storedAddress);
+			}
+		}
+		return null;
 	}
+	
+	public Address deleteAddress(int id)
+	{
+		for (Address address1 : addressRepository.findAll()) {
+			if(address1.getId()==id)
+			{
+				addressRepository.deleteById(id);
+				return address1;
+			}
+		}
+		return null;
+	}
+	
+	
+	public AddressDTO findAddress(int id)
+	{
+		Optional<Address> address=addressRepository.findById(id);
+		if(address.isPresent())
+		{
+			return fromEntityToDTO(address.get());
+		}
+		throw new NotFoundException("Address not found");
+	}
+	
+public List<Address> findAllAddress() {
+		
+	return addressRepository.findAll();
+		
+	}
+
+private AddressDTO fromEntityToDTO(Address address)
+{
+	AddressDTO addressDTO=new AddressDTO();
+	addressDTO.setId(address.getId());
+	addressDTO.setStreet(address.getStreet());
+	addressDTO.setCity(address.getCity());
+	addressDTO.setState(address.getState());
+	addressDTO.setCountry(address.getCountry());
+	addressDTO.setPinCode(address.getPinCode());
+	
+	return addressDTO;
+}
+
+private Address fromDTOToEntity(AddressDTO addressDTO)
+{
+	Address address=new Address();
+	address.setId(addressDTO.getId());
+	address.setStreet(addressDTO.getStreet());
+	address.setCity(addressDTO.getCity());
+	address.setState(addressDTO.getState());
+	address.setCountry(addressDTO.getCountry());
+	address.setPinCode(addressDTO.getPinCode());
+	return address;
+}
 	
 }

@@ -21,6 +21,13 @@ public class OnlineMedStoreExceptionHandler
 		return new ResponseEntity<SuccessResponce>(data, HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(ResourceAlreadyExistException.class)
+	public ResponseEntity<SuccessResponce> ResourceAlreadyExist(ResourceAlreadyExistException e)
+	{
+		SuccessResponce data=SuccessResponce.builder().status(HttpStatus.FOUND.value()).message("Resource Already Exists").datatime(LocalDateTime.now()).data(e.getMessage()).build();
+		return new ResponseEntity<SuccessResponce>(data, HttpStatus.FOUND);
+	}
+	
 	@ExceptionHandler(NotFoundException.class)
 	public ResponseEntity<SuccessResponce> Notfound(NotFoundException e)
 	{

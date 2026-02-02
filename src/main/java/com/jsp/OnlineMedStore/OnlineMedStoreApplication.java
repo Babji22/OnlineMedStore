@@ -9,5 +9,6 @@ public class OnlineMedStoreApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OnlineMedStoreApplication.class, args);
 	}
+	
 
 }

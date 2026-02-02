@@ -3,21 +3,18 @@ package com.jsp.OnlineMedStore.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.jsp.OnlineMedStore.DAO.AdminDAO;
-import com.jsp.OnlineMedStore.DAO.DrugDAO;
-import com.jsp.OnlineMedStore.DAO.MemberDAO;
+import com.jsp.OnlineMedStore.DTO.AdminDTO;
 import com.jsp.OnlineMedStore.Exception.NotFoundException;
-import com.jsp.OnlineMedStore.Util.SuccessResponce;
+import com.jsp.OnlineMedStore.Exception.ResourceAlreadyExistException;
+import com.jsp.OnlineMedStore.Repository.AdminRepository;
+import com.jsp.OnlineMedStore.Repository.DrugRepository;
+import com.jsp.OnlineMedStore.Repository.MemberRepository;
 import com.jsp.OnlineMedStore.entity.Admin;
 import com.jsp.OnlineMedStore.entity.Drug;
 import com.jsp.OnlineMedStore.entity.Member;
@@ -26,107 +23,111 @@ import com.jsp.OnlineMedStore.entity.Member;
 public class AdminService 
 {
 	@Autowired
-	AdminDAO adminDAO;
+	AdminRepository adminRepository;
 	
 	@Autowired
-	MemberDAO memberDAO;
+	MemberRepository memberRepository;
 	
 	@Autowired
-	DrugDAO drugDAO;
+	DrugRepository drugRepository;
 	
-	public ResponseEntity<SuccessResponce> saveAdmin(Admin admin)
+	public ResponseEntity<String> saveAdmin(AdminDTO adminDTO)
 	{
-		SuccessResponce data= SuccessResponce.builder().status(HttpStatus.CREATED.value()).datatime(LocalDateTime.now()).data(adminDAO.saveAdmin(admin)).message("Admin saved Successfully").build();
-		return new ResponseEntity<SuccessResponce>(data, HttpStatus.CREATED);
-	}
-	
-	public ResponseEntity<SuccessResponce> updateAdmin(Admin admin)
-	{
-		SuccessResponce update=SuccessResponce.builder().status(HttpStatus.ACCEPTED.value()).datatime(LocalDateTime.now()).data(adminDAO.updateAdmin(admin)).message("Admin details Updated").build();
-		return new ResponseEntity<SuccessResponce>(update, HttpStatus.ACCEPTED);
-	}
-	
-	public ResponseEntity<SuccessResponce> findAdmin(int id)
-	{
-		if(adminDAO.findAdmin(id)!=null)
+		if(adminRepository.findByEmail(adminDTO.getEmail()).isPresent())
 		{
-		SuccessResponce update=SuccessResponce.builder().status(HttpStatus.FOUND.value()).datatime(LocalDateTime.now()).data(adminDAO.findAdmin(id)).message("Admin details Updated").build();
-		return new ResponseEntity<SuccessResponce>(update, HttpStatus.FOUND);
+			throw new ResourceAlreadyExistException("User Already Exist");
+		}
+		Admin admin=fromDTOToEntity(adminDTO);
+		Admin admindata=adminRepository.save(admin);
+		
+		if(admindata.getId()!=null)
+		{
+			return new ResponseEntity<String>("registration sucessfull", HttpStatus.CREATED);
 		}
 		else
 		{
-			throw new NotFoundException("Admin "+id+" is not found");
+			throw new RuntimeException("Registration Unsuccessfull");
 		}
+		
+		
 	}
 	
-	public ResponseEntity<SuccessResponce> deleteAdmin(int id)
+	public ResponseEntity<AdminDTO> updateAdmin(AdminDTO adminDTO)
 	{
-		if(adminDAO.deleteAdmin(id)!=null)
-		{
-		SuccessResponce delete=SuccessResponce.builder().status(HttpStatus.OK.value()).datatime(LocalDateTime.now()).data(adminDAO.deleteAdmin(id)).message("Admin details Updated").build();
-		return new ResponseEntity<SuccessResponce>(delete, HttpStatus.OK);
-		}
-		else
-		{
-			throw new NotFoundException("Admin "+id+" is not found");
-		}
-	}
-	
-	public ResponseEntity<SuccessResponce> AdminLogin(String email,String password)
-	{
-		if (adminDAO.loginByEmail(email)!=null)
-		{
-			if(adminDAO.loginByPassword(password)!=null)
+		List<Admin> alladmin=adminRepository.findAll();
+		for (Admin admin : alladmin) {
+			if(admin.getId()==adminDTO.getId())
 			{
-				if(adminDAO.loginByPassword(password).getEmail().equals(email))
-				{
-					SuccessResponce login=SuccessResponce.builder().status(HttpStatus.FOUND.value()).datatime(LocalDateTime.now()).data(adminDAO.loginByEmail(email)).message("Admin details found").build();
-					return new ResponseEntity<SuccessResponce>(login, HttpStatus.FOUND);
-				}
-				else
-				{
-					throw new NotFoundException("Admin "+password+" is not found");
-				}
+				Admin adminData=fromDTOToEntity(adminDTO);
+				AdminDTO adminDTOData=fromEntityToDTO(adminRepository.save(adminData));
+				return new ResponseEntity<AdminDTO>(adminDTOData, HttpStatus.ACCEPTED);
+				
+			}
+		}
+		throw new NotFoundException("Admin is not found");
+		
+	}
+	
+	public ResponseEntity<AdminDTO> findAdminByEmail(String email)
+	{
+		Optional<Admin> admin=adminRepository.findByEmail(email);
+		if(admin.isPresent())
+		{
+		return new ResponseEntity<AdminDTO>(fromEntityToDTO(admin.get()), HttpStatus.FOUND);
+		}
+		else
+		{
+			throw new NotFoundException("Admin is not found");
+		}
+	}
+	
+	public ResponseEntity<String> deleteAdmin(int id)
+	{
+		for (Admin admin : adminRepository.findAll())
+		{
+			if(admin.getId()==id)
+			{
+				adminRepository.deleteById(id);
+				return new ResponseEntity<String>("Admin data is sucessfully Deleted", HttpStatus.OK);
+			}
+		}
+		throw new NotFoundException("Admin is not found");
+		
+	}
+	
+	public ResponseEntity<AdminDTO> AdminLogin(String email,String password)
+	{
+		Optional<Admin> getAdminByEmail=adminRepository.findByEmail(email);
+		if (getAdminByEmail.isPresent())
+		{
+			if(getAdminByEmail.get().getPassword().equals(password))
+			{
+				return new ResponseEntity<AdminDTO>(fromEntityToDTO(getAdminByEmail.get()), HttpStatus.FOUND);
 			}
 			else
 			{
 				throw new NotFoundException("Admin "+password+" is not found");
 			}
-		} 
-		else 
+		}
+		else
 		{
 			throw new NotFoundException("Admin "+email+" is not found");
 		}
-	}
+	} 
 
 	
-	public List<Integer> AdmindashboardPageService()
+
+	
+	public ResponseEntity<String> enableMember(int adminid, int memberid) 
 	{
-		ArrayList<Integer> DashboardData=new ArrayList<Integer>();
-		List<Drug> alldrugs=drugDAO.findAllDrugs();
-		
-		List<Member> allmembers=memberDAO.findMembers();
-		DashboardData.add(alldrugs.size());
-		DashboardData.add(allmembers.size());
-		
-		
-//		model.addAttribute("allmembers", allmembers.size());
-//		ResponseEntity<SuccessResponce> response=drugService.findAllDrugs();
-//		List<Drug> alldrugs=(List<Drug>) response.getBody().getData();
-//		model.addAttribute("alldrugs", alldrugs.size());
-		return DashboardData;
-	}
-	public ResponseEntity<SuccessResponce> enableMember(int adminid, int memberid) 
-	{
-		if(adminDAO.findAdmin(adminid)!=null)
+		if(adminRepository.findById(adminid)!=null)
 		{
-			Member member=memberDAO.findMember(memberid);
+			Member member=memberRepository.findById(memberid).get();
 			if (member!=null) 
 			{
 				member.setDisabled(true);
-				memberDAO.updateMember(member);
-				SuccessResponce login=SuccessResponce.builder().status(HttpStatus.FOUND.value()).datatime(LocalDateTime.now()).data(memberDAO.updateMember(member)).message("Admin details found").build();
-				return new ResponseEntity<SuccessResponce>(login, HttpStatus.FOUND);
+				memberRepository.save(member);
+				return new ResponseEntity<String>("Enabled Successfully", HttpStatus.FOUND);
 			}
 			else {
 				throw new NotFoundException("Member "+memberid+" is not found");
@@ -138,11 +139,32 @@ public class AdminService
 		
 	}
 	
-	public ResponseEntity<SuccessResponce> findMembers() 
-	{
-		SuccessResponce findall=SuccessResponce.builder().status(HttpStatus.FOUND.value()).datatime(LocalDateTime.now()).message("Members details saved").data(adminDAO.findMembers()).build();
-		return new ResponseEntity<SuccessResponce>(findall, HttpStatus.FOUND);
-	}
-	
+
+
+      
+      private AdminDTO fromEntityToDTO(Admin admin)
+  		{
+    	AdminDTO adminDTO=new AdminDTO();
+    	adminDTO.setId(admin.getId());
+    	adminDTO.setEmail(admin.getEmail());
+    	adminDTO.setMobilenumber(admin.getMobilenumber());
+    	adminDTO.setPassword(admin.getPassword());
+    	adminDTO.setName(admin.getName());
+    	adminDTO.setGender(admin.getGender());
+  		
+  		return adminDTO;
+  		}
+  	
+  	private Admin fromDTOToEntity(AdminDTO adminDTO)
+  	{
+  		Admin admin=new Admin();
+  		admin.setEmail(adminDTO.getEmail());
+  		admin.setMobilenumber(adminDTO.getMobilenumber());
+  		admin.setPassword(adminDTO.getPassword());
+  		admin.setName(adminDTO.getName());
+  		admin.setId(adminDTO.getId());
+  		admin.setGender(adminDTO.getGender());
+  		return admin;
+  	}
 	
 }

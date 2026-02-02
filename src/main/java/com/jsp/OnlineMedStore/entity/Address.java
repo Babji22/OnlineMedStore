@@ -16,11 +16,11 @@ public class Address
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String street;
 	private String city;
 	private String state;
 	private String country;
-	private String pincode;
+	private String pinCode;
 	
 }

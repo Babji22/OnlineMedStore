@@ -7,63 +7,59 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jsp.OnlineMedStore.DTO.DrugDTO;
+import com.jsp.OnlineMedStore.DTO.OrderDTO;
 import com.jsp.OnlineMedStore.Service.OrderService;
 import com.jsp.OnlineMedStore.Util.SuccessResponce;
 import com.jsp.OnlineMedStore.entity.Drug;
 import com.jsp.OnlineMedStore.entity.Member;
 import com.jsp.OnlineMedStore.entity.Ordered;
 
-@Controller
+@RestController
 @RequestMapping("/order")
+@CrossOrigin(origins = "http://localhost:4200")
 public class OrderController 
 {
 	@Autowired
 	OrderService orderService;
 	
 	
-	@PostMapping("/save")
-	public String saveOrder(Ordered ordered)
+	@PostMapping("/")
+	public String saveOrder(@RequestBody List<OrderDTO> orderDTOlist)
 	{
-		orderService.saveOrder(ordered);
+		System.out.println(orderDTOlist);
+		orderService.saveOrder(orderDTOlist);
 		return "home";
 	}
 	
 	@GetMapping("/search")
 	public String search(@RequestParam("search") String value,Model model)
 	{
-		System.out.println(value);
 		if(value=="")
 		{
 			return "redirect:/order/allorders"; 
 		}
 		else
 		{
-		ResponseEntity<SuccessResponce> response=orderService.findOrders();
-		List<Ordered> allorders=(List<Ordered>) response.getBody().getData();
-		ArrayList<Ordered> Orderdetails=new ArrayList<Ordered>();
-//		boolean ban = false;
-//		if(value.equalsIgnoreCase("true"))
-//		{
-//			ban=true;
-//		}
-//		else if(value.equalsIgnoreCase("false"))
-//		{
-//			ban=false;
-//		}
+		ResponseEntity<List<OrderDTO>> response=orderService.GetAllOrders();
+		List<OrderDTO> allorders=(List<OrderDTO>) response.getBody();
+		ArrayList<OrderDTO> Orderdetails=new ArrayList<OrderDTO>();
 		
-		for (Ordered order : allorders) {
+		for (OrderDTO orderDTO : allorders) {
 			
-			if((order.getMemberid()==Integer.parseInt(value)) || (order.getDrugid()==Integer.parseInt(value)) || (order.getOrderAmount()==Integer.parseInt(value)))// || (drug.isBanned()==ban))
+			if((orderDTO.getMemberId()==Integer.parseInt(value)) || (orderDTO.getDrugId()==Integer.parseInt(value)) || (orderDTO.getOrderAmount()==Integer.parseInt(value)))// || (drug.isBanned()==ban))
 			{
-				Orderdetails.add(order);
+				Orderdetails.add(orderDTO);
 			}
 		}
 		model.addAttribute("allorders", Orderdetails);
@@ -72,25 +68,24 @@ public class OrderController
 	}
 	
 	
-	@RequestMapping("/memberordersearch/{id}")
+	@GetMapping("/memberordersearch/{id}")
 	public String memberordersearch(@RequestParam("search") String value,@PathVariable("id") int memberid,Model model)
 	{
-		System.out.println(value);
 		if(value=="")
 		{
 			return "redirect:/member/orderdata/"+memberid+"/"+1; 
 		}
 		else
 		{
-			List<Drug> allorders=orderService.getMemberOrdersDetails(memberid);
+			List<DrugDTO> allorders=orderService.getMemberOrdersDetails(memberid);
 		
-		ArrayList<Drug> Orderdetails=new ArrayList<Drug>();
+			ArrayList<DrugDTO> Orderdetails=new ArrayList<DrugDTO>();
 		
-		for (Drug drug : allorders) {
+			for (DrugDTO drugDTO : allorders) {
 			
-			if((drug.getName().equalsIgnoreCase(value)) || (drug.getCompany().equalsIgnoreCase(value)) || (drug.getType().equalsIgnoreCase(value)))// || (drug.getQuantity()==Integer.parseInt(value)) || (drug.getPrice()==Integer.parseInt(value)) || (drug.getRating()==Integer.parseInt(value)))
+			if((drugDTO.getName().equalsIgnoreCase(value)) || (drugDTO.getCompany().equalsIgnoreCase(value)) || (drugDTO.getType().equalsIgnoreCase(value)))// || (drug.getQuantity()==Integer.parseInt(value)) || (drug.getPrice()==Integer.parseInt(value)) || (drug.getRating()==Integer.parseInt(value)))
 			{
-				Orderdetails.add(drug);
+				Orderdetails.add(drugDTO);
 			}
 		}
 		model.addAttribute("orderdrugs", Orderdetails);
@@ -99,25 +94,23 @@ public class OrderController
 		}
 	}
 	
-	@RequestMapping("/membercartsearch/{id}")
+	@GetMapping("/membercartsearch/{id}")
 	public String membercartsearch(@RequestParam("search") String value,@PathVariable("id") int memberid,Model model)
 	{
-		System.out.println(value);
 		if(value=="")
 		{
 			return "redirect:/member/cartdata/"+memberid+"/"+1; 
 		}
 		else
 		{
-			List<Drug> allcartdrugs=orderService.getMemberCartDetails(memberid);
-//			System.out.println(allcartdrugs);
-		ArrayList<Drug> cartdrugs=new ArrayList<Drug>();
+			List<DrugDTO> allcartdrugs=orderService.getMemberCartDetails(memberid);
+			ArrayList<DrugDTO> cartdrugs=new ArrayList<DrugDTO>();
 		
-		for (Drug drug : allcartdrugs) {
-			System.out.println(drug);
-			if((drug.getName().equalsIgnoreCase(value)) || (drug.getCompany().equalsIgnoreCase(value)) || (drug.getType().equalsIgnoreCase(value)))// || drug.getQuantity()==Integer.parseInt(value))// || (drug.getPrice()==Integer.parseInt(value)) || (drug.getRating()==Integer.parseInt(value)))
+			for (DrugDTO drugDTO : allcartdrugs) 
 			{
-				cartdrugs.add(drug);
+			if((drugDTO.getName().equalsIgnoreCase(value)) || (drugDTO.getCompany().equalsIgnoreCase(value)) || (drugDTO.getType().equalsIgnoreCase(value)))// || drug.getQuantity()==Integer.parseInt(value))// || (drug.getPrice()==Integer.parseInt(value)) || (drug.getRating()==Integer.parseInt(value)))
+			{
+				cartdrugs.add(drugDTO);
 			}
 		}
 		model.addAttribute("alldrugs", cartdrugs);
@@ -126,27 +119,26 @@ public class OrderController
 		}
 	}
 	
-	@PostMapping("/deleteCartDrug/{drugid}/{member}")
+	@DeleteMapping("/deleteCartDrug/{drugid}/{member}")
 	public String deleteCartDrug(@PathVariable("drugid") int drugid,@PathVariable("member") int memberid)
 	{
-		System.out.println(drugid);
 		orderService.deleteCartDrug(drugid,memberid);
 		return "redirect:/member/cartdata/"+memberid+"/"+1;
 	}
 	
-	@PostMapping("/drugorder")
-	public ResponseEntity<SuccessResponce> drugOrder(@RequestParam int custid, @RequestParam List<List<Integer>> drugname)
+	@GetMapping("/getorders/{memberId}")
+	public List<OrderDTO> getUserOrder(@PathVariable("memberId") Integer memberId)
 	{
-		return orderService.ordersDrug(custid, drugname);
+//		System.out.println(orderService.getUserOrder(memberId).getBody());
+		return orderService.getUserOrder(memberId).getBody();
 	}
 	
-	@RequestMapping("/allorders")
-	public String allMembersData(Model model)
+	@GetMapping("/allorders")
+	public List<OrderDTO> allOrders(Model model)
 	{
-		ResponseEntity<SuccessResponce> response=orderService.findOrders();
-		List<Ordered> allorders=(List<Ordered>) response.getBody().getData();
-		model.addAttribute("allorders", allorders);
-		System.out.println(allorders);
-		return "AdminOrders";
+		ResponseEntity<List<OrderDTO>> response=orderService.GetAllOrders();
+		List<OrderDTO> allorders=(List<OrderDTO>) response.getBody();
+		return allorders;
+
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jsp.OnlineMedStore.DTO.AdminDTO;
+import com.jsp.OnlineMedStore.DTO.DrugDTO;
+import com.jsp.OnlineMedStore.DTO.MemberDTO;
 import com.jsp.OnlineMedStore.Service.AdminService;
 import com.jsp.OnlineMedStore.Service.DrugService;
 import com.jsp.OnlineMedStore.Service.MemberService;
@@ -32,8 +36,9 @@ import com.jsp.OnlineMedStore.entity.Admin;
 import com.jsp.OnlineMedStore.entity.Drug;
 import com.jsp.OnlineMedStore.entity.Member;
 
-@Controller
-//@RequestMapping("/admin")
+@RestController
+@RequestMapping("/admin")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AdminController
 {
 	@Autowired
@@ -46,92 +51,29 @@ public class AdminController
 	DrugService drugService;
 	
 	
-	@RequestMapping("/Medicine")
-	public String MedicinePage()
+	
+	
+	@PostMapping("/register")
+	public String AdminRegister(@RequestBody AdminDTO adminDTO)
 	{
-		
-		return "home";
-	}
-	
-	
-	@RequestMapping("/dealspage")
-	public String DealsPage(Model model)
-	{
-		ResponseEntity<SuccessResponce> response=drugService.findAllDrugs();
-		List<Drug> alldrugs=(List<Drug>) response.getBody().getData();
-		Collections.sort(alldrugs,new check());
-		System.out.println(alldrugs);
-		model.addAttribute("alldrugs", alldrugs);
-		return "deals";
-	}
-	
-	
-	
-	
-	
-	@RequestMapping("/dashboard")
-	public String AdmindashboardPage(Model model)
-	{
-		List<Integer> dashboardData=adminService.AdmindashboardPageService();
-		model.addAttribute("alldrugs", dashboardData.get(0));
-		model.addAttribute("allmembers", dashboardData.get(1));
-		return "AdminDashboard";
-	}
-	
-	@RequestMapping("/path")
-	public String Registrationpage(@RequestParam("val") String val)
-	{
-		if(val.equals("Admin"))
-		{
-		return "path";
-		}
-		else
-		{
-			return "redirect:member/Register";
-		}
-	}
-	
-	@RequestMapping("/register")
-	public String AdminRegister(Admin admin)
-	{
-//		   	System.out.println(val);
-//		   	if(val.equals("Admin"))
-//			{
-//			adminService.saveAdmin((Admin) admin);
-//			}
-//		   	else
-//		   	{
-//		   		memberService.saveMember((Member) admin);
-//		   	}
-//			return "home";
-		   	
-//		   	if(val.equals("Admin"))
-//		   	{
-		   		adminService.saveAdmin(admin);
-		   		return "home";
-//		   	}
-//		   	else
-//		   	{
-//		   		Member member=(Member)admin;
-//		   		System.out.println(member);
-//		   		return "redirect:/member/register/"+member;
-//		   	}
+		adminService.saveAdmin(adminDTO);
+		return "Registration sucessfull";
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<SuccessResponce> AdminUpdate(@RequestBody Admin admin)
+	public AdminDTO AdminUpdate(@RequestBody AdminDTO adminDTO)
 	{
-		return adminService.updateAdmin(admin);
+		return adminService.updateAdmin(adminDTO).getBody();
 	}
 	
 	@GetMapping("/find")
-	public ResponseEntity<SuccessResponce> findAdmin(@RequestParam int id)
+	public ResponseEntity<AdminDTO> findAdminByEmail(@RequestParam String email)
 	{
-		return adminService.findAdmin(id);
+		return adminService.findAdminByEmail(email);
 	}
 	
 	@DeleteMapping("/delete")
-	public ResponseEntity<SuccessResponce> deleteAdmin(@RequestParam int id)
+	public ResponseEntity<String> deleteAdmin(@RequestParam int id)
 	{
 		return adminService.deleteAdmin(id);
 	}
@@ -139,80 +81,41 @@ public class AdminController
 	@GetMapping("/search")
 	public String casualsearch(@RequestParam("search") String value,Model model)
 	{
-		System.out.println(value);
 		if(value=="")
 		{
 			return "redirect:/drug/alldrugs"; 
 		}
 		else
 		{
-		ResponseEntity<SuccessResponce> response=drugService.findAllDrugs();
-		List<Drug> alldrugs=(List<Drug>) response.getBody().getData();
-		ArrayList<Drug> drugdetails=new ArrayList<Drug>();
+		ResponseEntity<List<DrugDTO>> response=drugService.findAllDrugs();
+		List<DrugDTO> alldrugs=(List<DrugDTO>) response.getBody();
+		ArrayList<DrugDTO> drugdetails=new ArrayList<DrugDTO>();
 		
-		for (Drug drug : alldrugs) {
+		for (DrugDTO drugDTO : alldrugs) {
 			
-			if((drug.getName().equalsIgnoreCase(value)) || (drug.getCompany().equalsIgnoreCase(value)) || (drug.getType().equalsIgnoreCase(value)))// || (drug.getQuantity()==Integer.parseInt(value)) || (drug.getPrice()==Integer.parseInt(value)) || (drug.getRating()==Integer.parseInt(value)))// || (drug.isBanned()==ban))
+			if((drugDTO.getName().equalsIgnoreCase(value)) || (drugDTO.getCompany().equalsIgnoreCase(value)) || (drugDTO.getType().equalsIgnoreCase(value)))// || (drug.getQuantity()==Integer.parseInt(value)) || (drug.getPrice()==Integer.parseInt(value)) || (drug.getRating()==Integer.parseInt(value)))// || (drug.isBanned()==ban))
 			{
-				drugdetails.add(drug);
-			}
+				drugdetails.add(drugDTO);
+			} 
 		}
 		model.addAttribute("alldrugs", drugdetails);
 		return "AdminMedicines";
 		}
 	}
 	
-	@GetMapping("/login")
-	public String loginAdmin(@RequestParam("val") String val,String email,String password,Model model)
+	@GetMapping("/login/{email}/{password}")
+	public AdminDTO loginAdmin(@PathVariable String email,@PathVariable String password)
 	{
-		System.out.println(val);
-		if(val.equals("Admin"))
-		{
-		ResponseEntity<SuccessResponce> response=adminService.AdminLogin(email, password);
-		Admin responseadmin=(Admin) response.getBody().getData();
-		model.addAttribute("responseadmin", responseadmin);
-		return "Admin";	
-		}
-		else
-		{
-			ResponseEntity<SuccessResponce> response=memberService.MemberLogin(email, password);
-			Member memberlogin=(Member) response.getBody().getData();
-			model.addAttribute("memberlogin", memberlogin);
-			return "home2";
-		}
+		return adminService.AdminLogin(email, password).getBody();
 	}
 	
 	@GetMapping("/enablemember")
-	public ResponseEntity<SuccessResponce> enableMember(@RequestParam int adminid,@RequestParam int memberid)
+	public ResponseEntity<String> enableMember(@RequestParam int adminid,@RequestParam int memberid)
 	{
 		return adminService.enableMember(adminid,memberid);
 	}
 	
-	@RequestMapping("/logout")
-	public String logout()
-	{
-		return "redirect:/Medicine";
-	}
 	
-	
-	@GetMapping("/findall")
-	public List<Member> findMembers()
-	{
-		ResponseEntity<SuccessResponce> response=adminService.findMembers();
-		List<Member> allmembers=(List<Member>) response.getBody().getData();
-		return allmembers;
-	}
-
 
 	
-}
-
-class check implements Comparator<Drug>
-{
-	@Override
-	public int compare(Drug o1, Drug o2) 
-	{
-		return o1.getType().compareTo(o2.getType());
-		
-	}
 }

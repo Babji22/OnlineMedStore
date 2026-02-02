@@ -3,6 +3,7 @@ package com.jsp.OnlineMedStore.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +16,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.jsp.OnlineMedStore.DAO.MemberDAO;
+import com.jsp.OnlineMedStore.DTO.AddressDTO;
+import com.jsp.OnlineMedStore.DTO.AdminDTO;
+import com.jsp.OnlineMedStore.DTO.DrugDTO;
+import com.jsp.OnlineMedStore.DTO.MemberDTO;
+import com.jsp.OnlineMedStore.DTO.OrderDTO;
 import com.jsp.OnlineMedStore.Exception.NotFoundException;
+import com.jsp.OnlineMedStore.Exception.ResourceAlreadyExistException;
+import com.jsp.OnlineMedStore.Repository.AddressRepository;
+import com.jsp.OnlineMedStore.Repository.MemberRepository;
 import com.jsp.OnlineMedStore.Util.SuccessResponce;
 import com.jsp.OnlineMedStore.entity.Address;
+import com.jsp.OnlineMedStore.entity.Admin;
 import com.jsp.OnlineMedStore.entity.Drug;
 import com.jsp.OnlineMedStore.entity.Member;
 import com.jsp.OnlineMedStore.entity.Ordered;
@@ -27,7 +36,7 @@ import com.jsp.OnlineMedStore.entity.Ordered;
 public class MemberService 
 {
 	@Autowired
-	MemberDAO memberDAO;
+	MemberRepository memberRepository;
 	
 	@Autowired
 	OrderService orderService;
@@ -35,168 +44,157 @@ public class MemberService
 	@Autowired
 	DrugService drugService;
 	
-	public ResponseEntity<SuccessResponce> saveMember(Member member)
+	@Autowired
+	AddressService addressService;
+	
+	public ResponseEntity<MemberDTO> saveMember(MemberDTO memberDTO)
 	{
-		SuccessResponce save=SuccessResponce.builder().status(HttpStatus.CREATED.value()).datatime(LocalDateTime.now()).message("Members details saved").data(memberDAO.saveMember(member)).build();
-		return new ResponseEntity<SuccessResponce>(save, HttpStatus.CREATED);
-	}
-
-	public ResponseEntity<SuccessResponce> updateMember(Member member) {
-		SuccessResponce update=SuccessResponce.builder().status(HttpStatus.ACCEPTED.value()).datatime(LocalDateTime.now()).message("Members details saved").data(memberDAO.updateMember(member)).build();
-		return new ResponseEntity<SuccessResponce>(update, HttpStatus.ACCEPTED);
-	}
-
-	public ResponseEntity<SuccessResponce> deleteMember(int id) {
-		SuccessResponce delete=SuccessResponce.builder().status(HttpStatus.OK.value()).datatime(LocalDateTime.now()).message("Members details deleted").data(memberDAO.deleteMember(id)).build();
-		return new ResponseEntity<SuccessResponce>(delete, HttpStatus.OK);
-	}
-
-	public ResponseEntity<SuccessResponce> findMember(int id) 
-	{
-//		SuccessResponce find=SuccessResponce.builder().status(HttpStatus.FOUND.value()).datatime(LocalDateTime.now()).message("Members details saved").data(memberDAO.findMember(id)).build();
-//		return new ResponseEntity<SuccessResponce>(find, HttpStatus.FOUND);
-//	}
-//	
-//	
-//	@GetMapping("/getmember/{id}")
-//	public String getMember(@PathVariable("id")int id, Model model)
-//	{
-		Member memberdata=memberDAO.findMember(id);
-		if(memberdata.getId()!=0)
+		if(memberRepository.findByEmail(memberDTO.getEmail()).isPresent())
 		{
-			Address addid=memberdata.getAddress();
-			if(addid==null)
-			{
-//				ResponseEntity<SuccessResponce> responseadd=addressService.findAddress(id);
-//				Address addressdata=(Address) responseadd.getBody().getData();
-//				model.addAttribute("addressdata", addid);
-				addid=new Address();
-				memberdata.setAddress(addid);
-				//model.addAttribute("addressdata", memberdata.getAddress());
-			}
-//			System.out.println(addid.getId());
-//			System.out.println(addid.getStreet());
+			throw new ResourceAlreadyExistException("User Already Exist");
 		}
-//		}
+		Member member=fromDTOToEntity(memberDTO);
+		Member memberdata=memberRepository.save(member);
 		
-//		model.addAttribute("memberdata", memberdata);
-//		System.out.println("hii");
-		SuccessResponce find=SuccessResponce.builder().status(HttpStatus.FOUND.value()).datatime(LocalDateTime.now()).message("Members details saved").data(memberdata).build();
-		return new ResponseEntity<SuccessResponce>(find, HttpStatus.FOUND);
-	
-		
-//		return memberdata;
+		if(memberdata.getId()!=null)
+		{
+			return new ResponseEntity<MemberDTO>(fromEntityToDTO(memberdata), HttpStatus.CREATED);
+		}
+		else
+		{
+			throw new RuntimeException("Registration Unsuccessfull");
+		}
 		
 	}
-	
-	
-	public String addToCartService(int drugid ,int memberid)
-	{
-//		ResponseEntity<SuccessResponce> responsedrug=drugService.findById(drugid);
-		List<Drug>  cartdrug= orderService.getMemberCartDetails(memberid);
-		boolean status=false;
-		for(int i=0;i<cartdrug.size();i++)
-		{
-			if(cartdrug.get(i).getId()==drugid)
+
+	public ResponseEntity<MemberDTO> updateMember(MemberDTO memberDTO) {
+		
+		AddressDTO addressDTO=memberDTO.getAddressDTO();
+		Address address= addressService.saveAddress(addressDTO);
+		System.out.println(address);
+		List<Member> allmember=memberRepository.findAll();
+		for (Member member : allmember) {
+			if(member.getId()==memberDTO.getId())
 			{
-				status=true;
-				break;
+				Member memberData=fromDTOToEntity(memberDTO);
+				memberData.setAddress(address);
+				MemberDTO memberDTOData=fromEntityToDTO(memberRepository.save(memberData));
+				memberDTOData.setAddressDTO(addressService.findAddress(address.getId()));
+				
+				return new ResponseEntity<MemberDTO>(memberDTOData, HttpStatus.ACCEPTED);
+				
 			}
 		}
-		if(status==false)
-		{
-		Ordered cart=new Ordered();
-		cart.setMemberid(memberid);
-		cart.setDrugid(drugid);
-		cart.setStatus_order(false);
-		orderService.saveOrder(cart);
-//		System.out.println(memberid);
-		}
-		return "home2";
+		throw new NotFoundException("Member is not found");
 		
-//		else
-//		{
-//			return null
-//		}
 	}
-	
-	
-	public List<Integer> AdmindashboardPageService(int memberid)
-	{
-		
-		ResponseEntity<SuccessResponce> responseOrders=orderService.findOrders();
-		List<Ordered> allordersdata=(List<Ordered>) responseOrders.getBody().getData();
-		ArrayList<Integer> drugsdata=new ArrayList<Integer>();
-		int cartcount=0;
-		int ordercount=0;
-		for (int mid=0;mid<allordersdata.size();mid++) 
-		{
-			if(allordersdata.get(mid).getMemberid()==memberid)
-			{
-				if(allordersdata.get(mid).isStatus_order()==false)
-				{
-					ResponseEntity<SuccessResponce> responsedrug=drugService.findById(allordersdata.get(mid).getDrugid());
-					Drug alldrugdata=(Drug) responsedrug.getBody().getData();
-					cartcount++;
-				}
-				else
-				{
-					ResponseEntity<SuccessResponce> responsedrug=drugService.findById(allordersdata.get(mid).getDrugid());
-					Ordered alldrugdata=(Ordered) responsedrug.getBody().getData();
-					ordercount++;
-				}
-			}
-		}
-		drugsdata.add(cartcount);
-		drugsdata.add(ordercount);
-		
 
+	public ResponseEntity<String> deleteMember(int id) {
 		
-//		ResponseEntity<SuccessResponce> responsedrugs=drugService.findAllDrugs();
-//		List<Drug> alldrugs=(List<Drug>) responsedrugs.getBody().getData();
-//		model.addAttribute("alldrugs", alldrugs.size());
-//		ResponseEntity<SuccessResponce> responsemembers=memberService.findMembers();
-//		List<Drug> allmembers=(List<Drug>) responsemembers.getBody().getData();
-//		model.addAttribute("allmembers", allmembers.size());
-//		ResponseEntity<SuccessResponce> response=drugService.findAllDrugs();
-//		List<Drug> alldrugs=(List<Drug>) response.getBody().getData();
-//		model.addAttribute("alldrugs", alldrugs.size());
-		return drugsdata;
-	}
-	
-	
-	
-	
-	public ResponseEntity<SuccessResponce> findMembers() 
-	{
-		SuccessResponce findall=SuccessResponce.builder().status(HttpStatus.FOUND.value()).datatime(LocalDateTime.now()).message("Members details saved").data(memberDAO.findMembers()).build();
-		return new ResponseEntity<SuccessResponce>(findall, HttpStatus.FOUND);
-	}
-	
-	public ResponseEntity<SuccessResponce> MemberLogin(String email,String password)
-	{
-		if (memberDAO.loginByEmail(email)!=null)
+		for (Member member : memberRepository.findAll())
 		{
-			if(memberDAO.loginByPassword(password)!=null)
+			if(member.getId()==id)
 			{
-				if(memberDAO.loginByPassword(password).getEmail().equals(email))
-				{
-					SuccessResponce login=SuccessResponce.builder().status(HttpStatus.FOUND.value()).datatime(LocalDateTime.now()).data(memberDAO.loginByEmail(email)).message("Admin details found").build();
-					return new ResponseEntity<SuccessResponce>(login, HttpStatus.FOUND);
-				}
-				else
-				{
-					throw new NotFoundException("Member "+password+" is not found");
-				}
+				memberRepository.deleteById(id);
+				return new ResponseEntity<String>("Members details deleted", HttpStatus.OK);
+			}
+		
+		}
+		throw new NotFoundException("Member is not found");
+		
+		
+	}
+
+	public ResponseEntity<MemberDTO> findMember(int id) 
+	{
+		Optional<Member> member=memberRepository.findById(id);
+		if(member.isPresent())
+		{
+			MemberDTO memberDTO=fromEntityToDTO(member.get());
+			memberDTO.setAddressDTO(addressService.findAddress(memberDTO.getAddressDTO().getId()));
+			return new ResponseEntity<MemberDTO>(memberDTO, HttpStatus.FOUND);
+		}
+		else
+		{
+			throw new NotFoundException("Member is not found");
+		}
+		
+	}
+	
+	
+
+
+	
+	
+
+	
+	public ResponseEntity<MemberDTO> MemberLogin(String email,String password)
+	{
+		Optional<Member> getMemberByEmail=memberRepository.findByEmail(email);
+		System.out.println(getMemberByEmail.get().getAddress());
+		if (getMemberByEmail.isPresent())
+		{
+			if(getMemberByEmail.get().getPassword().equals(password))
+			{
+				MemberDTO memberDTO=fromEntityToDTO(getMemberByEmail.get());
+				memberDTO.setAddressDTO(addressService.findAddress(getMemberByEmail.get().getAddress().getId()));
+				return new ResponseEntity<MemberDTO>(memberDTO, HttpStatus.FOUND);
 			}
 			else
 			{
-				throw new NotFoundException("member "+password+" is not found");
+				throw new NotFoundException("Member "+password+" is not found");
 			}
-		} 
-		else 
+		}
+		else
 		{
-			throw new NotFoundException("member "+email+" is not found");
+			throw new NotFoundException("Member "+email+" is not found");
 		}
 	}
+	
+	
+
+	
+	
+	
+	public ResponseEntity<List<MemberDTO>> findMembers() {
+		
+		List<Member> memberList= memberRepository.findAll();
+		
+		List<MemberDTO> newMemberList=new ArrayList<MemberDTO>();
+		for(Member member:memberList)
+		{
+			newMemberList.add(fromEntityToDTO(member));
+		}
+		
+		return new ResponseEntity<List<MemberDTO>>(newMemberList, HttpStatus.FOUND);
+		
+	}
+
+	private MemberDTO fromEntityToDTO(Member member)
+	{
+		MemberDTO memberDTO=new MemberDTO();
+		memberDTO.setId(member.getId());
+		memberDTO.setEmail(member.getEmail());
+		memberDTO.setMobilenumber(member.getMobilenumber());
+		memberDTO.setPassword(member.getPassword());
+		memberDTO.setName(member.getName());
+		memberDTO.setGender(member.getGender());
+		memberDTO.setDisabled(member.isDisabled());
+		
+		return memberDTO;
+	}
+
+	private Member fromDTOToEntity(MemberDTO memberDTO)
+	{
+		Member member=new Member();
+		member.setEmail(memberDTO.getEmail());
+		member.setMobilenumber(memberDTO.getMobilenumber());
+		member.setPassword(memberDTO.getPassword());
+		member.setName(memberDTO.getName());
+		member.setId(memberDTO.getId());
+		member.setGender(memberDTO.getGender());
+		member.setDisabled(memberDTO.isDisabled());
+		return member;
+	}
+	
 }

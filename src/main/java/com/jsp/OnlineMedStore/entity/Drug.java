@@ -17,14 +17,14 @@ public class Drug
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String name;
 	private String company;
 	private String type;
-	private int price;
-	private int quantity;
-	private int rating;
-	private boolean banned;
+	private Double price;
+	private Integer quantity;
+	private Integer rating;
+//	private Boolean banned;
 	
 	
 }

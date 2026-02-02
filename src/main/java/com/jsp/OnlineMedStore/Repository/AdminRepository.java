@@ -1,11 +1,15 @@
 package com.jsp.OnlineMedStore.Repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.jsp.OnlineMedStore.entity.Admin;
 
+@Repository
 public interface AdminRepository extends JpaRepository<Admin, Integer>
 {
-	Admin findByEmail(String email);
-	Admin findByPassword(String password);
+	Optional<Admin> findByEmail(String email);
+	Optional<Admin> findByPassword(String password);
 }

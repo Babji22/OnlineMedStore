@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,134 +18,100 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jsp.OnlineMedStore.DTO.DrugDTO;
 import com.jsp.OnlineMedStore.Service.DrugService;
 import com.jsp.OnlineMedStore.Util.SuccessResponce;
 import com.jsp.OnlineMedStore.entity.Drug;
 import com.jsp.OnlineMedStore.entity.Member;
 
-@Controller
+@RestController
 @RequestMapping("/drug")
+@CrossOrigin(origins = "http://localhost:4200")
 public class DrugController 
 {
 	@Autowired
 	DrugService drugService;
 	
-	@PostMapping("/addnewdrug/savedrug/")
-	public String addDrugById(Drug drug)//, @PathVariable("id") int adminid)
+	@PostMapping("/addProduct")
+	public String addDrug(@RequestBody DrugDTO drugDTO)
 	{
-		System.out.println(drug);
-		drugService.addDrug(drug);//, adminid);
-		
+		drugService.addDrug(drugDTO);
 		return "redirect:/drug/alldrugs";
 	}
 	
-	@RequestMapping("/newdrug")
-	public String Newdrugpage(Model model)
-	{
-	
-		return "Addmedicines";
-	}
-	
+
 	@GetMapping("/getdrug/{drugid}")
 	public String findMember(@PathVariable("drugid")int drugid, Model model)
 	{
-		ResponseEntity<SuccessResponce> response=drugService.findById(drugid);
-		Drug drugdata=(Drug) response.getBody().getData();
+		ResponseEntity<DrugDTO> response=drugService.findById(drugid);
+		DrugDTO drugdata=(DrugDTO) response.getBody();
 		model.addAttribute("drugdata", drugdata);
-//		model.addAttribute("adminid", adminid);
-//		System.out.println(drugdata.getId());
 		return "Updatemedicineform";
 		
 	}
 	
-	@RequestMapping("/editdrug")
-	public String editDrugById(Drug drug)
+	@PutMapping("/update")
+	public String editDrugById(@RequestBody DrugDTO drugDTO)
 	{
-		//System.out.println(drug.getId());
-		System.out.println(drug);
-		drugService.editDrug(drug);
+		drugService.editDrug(drugDTO);
 		return "redirect:/drug/alldrugs";
 	}
 	
-	@GetMapping("/getdrugbyid/{id}")
-	public String getDrugById(@PathVariable("id") int id, Model model)
+	@GetMapping("/{id}")
+	public DrugDTO getDrugById(@PathVariable("id") int id, Model model)
 	{
-		Drug drugdata=(Drug) drugService.findById(id).getBody().getData();
-		model.addAttribute("drugdata", drugdata);
-		return "Updatemedicineform";
+		DrugDTO drugdata=(DrugDTO) drugService.findById(id).getBody();
+		return drugdata;
+
 	}
 	
-	@GetMapping("/search")
-	public String search(@RequestParam("search") String value,Model model)
-	{
-		System.out.println(value);
-		if(value=="")
-		{
-			return "redirect:/drug/alldrugs"; 
-		}
-		else
-		{
-		ResponseEntity<SuccessResponce> response=drugService.findAllDrugs();
-		List<Drug> alldrugs=(List<Drug>) response.getBody().getData();
-		ArrayList<Drug> drugdetails=new ArrayList<Drug>();
-//		boolean ban = false;
-//		if(value.equalsIgnoreCase("true"))
+//	@GetMapping("/search")
+//	public String search(@RequestParam("search") String value,Model model)
+//	{
+//		System.out.println(value);
+//		if(value=="")
 //		{
-//			ban=true;
+//			return "redirect:/drug/alldrugs"; 
 //		}
-//		else if(value.equalsIgnoreCase("false"))
+//		else
 //		{
-//			ban=false;
+//		ResponseEntity<List<DrugDTO>> response=drugService.findAllDrugs();
+//		List<DrugDTO> alldrugs=(List<DrugDTO>) response.getBody();
+//		ArrayList<DrugDTO> drugdetails=new ArrayList<DrugDTO>();
+//		
+//		for (DrugDTO drugDTO : alldrugs) {
+//			
+//			if((drugDTO.getName().equalsIgnoreCase(value)) || (drugDTO.getCompany().equalsIgnoreCase(value)) || (drugDTO.getType().equalsIgnoreCase(value)) || (drugDTO.getQuantity()==Integer.parseInt(value)) || (drugDTO.getPrice()==Integer.parseInt(value)) || (drugDTO.getRating()==Integer.parseInt(value)))// || (drug.isBanned()==ban))
+//			{
+//				drugdetails.add(drugDTO);
+//			}
 //		}
-		
-		for (Drug drug : alldrugs) {
-			
-			if((drug.getName().equalsIgnoreCase(value)) || (drug.getCompany().equalsIgnoreCase(value)) || (drug.getType().equalsIgnoreCase(value)) || (drug.getQuantity()==Integer.parseInt(value)) || (drug.getPrice()==Integer.parseInt(value)) || (drug.getRating()==Integer.parseInt(value)))// || (drug.isBanned()==ban))
-			{
-				drugdetails.add(drug);
-			}
-		}
-		model.addAttribute("alldrugs", drugdetails);
-		return "AdminMedicines";
-		}
-	}
+//		model.addAttribute("alldrugs", drugdetails);
+//		return "AdminMedicines";
+//		}
+//	}
 	
 	@GetMapping("/getdrugbyname")
-	public ResponseEntity<SuccessResponce> getDrugByName(@RequestParam String name)
+	public ResponseEntity<DrugDTO> getDrugByName(@RequestParam String name)
 	{
 		return drugService.findByName(name);
 	}
 	
-//	@DeleteMapping("/deletedrug")
-//	public ResponseEntity<SuccessResponce> deleteDrugById(@RequestParam int drugid,@RequestParam int adminid)
-//	{
-//		return drugService.deleteDrug(drugid,adminid);
-//	}
 	
-	@RequestMapping("/deletedrug/{drugid}")
+	@DeleteMapping("/{drugid}")
 	public String deletedrug(@PathVariable("drugid") int drugid)
 	{
-//		System.out.println(drugid);
-//		System.out.println(adminid);
 		drugService.deleteDrug(drugid);
 		return "redirect:/drug/alldrugs";
 	}
 	
-//	@GetMapping("/getdrugs")
-//	public ResponseEntity<SuccessResponce> getDrugs()
-//	{
-//		return drugService.findAllDrugs();
-//	}
 	
-	@RequestMapping("/alldrugs")
-	public String alldrugssData(Model model)
+	@GetMapping("/alldrugs")
+	public List<DrugDTO> alldrugssData(Model model)
 	{
-		ResponseEntity<SuccessResponce> response=drugService.findAllDrugs();
-		List<Drug> alldrugs=(List<Drug>) response.getBody().getData();
-		model.addAttribute("alldrugs", alldrugs);
-//		model.addAttribute("adminid", adminid);
-//		System.out.println(alldrugs);
-		return "AdminMedicines";
+		ResponseEntity<List<DrugDTO>> response=drugService.findAllDrugs();
+		List<DrugDTO> alldrugs=(List<DrugDTO>) response.getBody();
+		return alldrugs;
 	}
 	
 }
