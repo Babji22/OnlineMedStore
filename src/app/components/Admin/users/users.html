@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin | Users</title>
+</head>
+<body>
+
+<div class="dashboard">
+
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Header -->
+    <header class="topbar">
+      <h1>Users</h1>
+      <div class="icons">🔔 🔔 👤</div>
+    </header>
+
+    <!-- Top Controls -->
+    <section class="controls">
+      <p>Total Users: <b>{{usersList().length}}</b></p>
+      <button class="add-btn">+ Add User</button>
+    </section>
+
+    <!-- Search -->
+    <div class="search-box">
+      🔍
+      <input type="text" placeholder="Search users">
+    </div>
+
+    <!-- Users Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody >
+          @for(item of usersList(); track item.id)
+          {
+            <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.email}}</td>
+            <td><span class="role user">User</span></td>
+            <td><span class="status active">Active</span></td>
+            <td>
+              <button class="edit">Edit</button>
+              <button class="delete" (click)="deleteUser(item.id)">Delete</button>
+            </td>
+          </tr>
+          }
+          
+
+          <!-- <tr>
+            <td>QP-030</td>
+            <td>Jane Smith</td>
+            <td>jane-lare@email.com</td>
+            <td><span class="role user">User</span></td>
+            <td><span class="status inactive">Inactive</span></td>
+            <td>
+              <button class="edit">Edit</button>
+              <button class="delete">Delete</button>
+            </td>
+          </tr>
+
+          <tr>
+            <td>QP-000</td>
+            <td>Michael Brown</td>
+            <td>michael@email.com</td>
+            <td><span class="role admin">Admin</span></td>
+            <td><span class="status active">Active</span></td>
+            <td>
+              <button class="edit">Edit</button>
+              <button class="delete">Delete</button>
+            </td>
+          </tr>
+
+          <tr>
+            <td>QP-040</td>
+            <td>David Miller</td>
+            <td>david@email.com</td>
+            <td><span class="role user">User</span></td>
+            <td><span class="status active">Active</span></td>
+            <td>
+              <button class="edit">Edit</button>
+              <button class="delete">Delete</button>
+            </td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>

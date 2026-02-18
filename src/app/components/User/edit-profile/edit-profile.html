@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Profile</title>
+  <link rel="stylesheet" href="edit-profile.css">
+</head>
+<body>
+
+<div class="dashboard">
+
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Header -->
+    <header class="topbar">
+      <h1>Edit Profile</h1>
+      <div class="icons">🔔 🔔 👤</div>
+    </header>
+
+    <p class="subtitle">Update your profile information.</p>
+
+    <!-- Profile Settings -->
+    <section class="card">
+      <h2>Profile Settings</h2>
+
+      <div class="profile-section">
+
+        <!-- Avatar -->
+        <!-- <div class="avatar">
+          <img src="assets/images/profile.png" alt="Profile">
+          <div class="avatar-actions">
+            <button class="link">Upload New</button>
+            <button class="link danger">Remove</button>
+          </div>
+        </div> -->
+
+        <!-- Form -->
+        <div class="form-grid">
+          <div>
+            <label>Full Name</label>
+            <input class="input" type="text" [(ngModel)]="getUserDetails.name">
+          </div>
+
+          <div>
+            <label>Email Address</label>
+            <input class="input" type="email" [(ngModel)]="getUserDetails.email">
+          </div>
+
+          <div>
+            <label>Password</label>
+            <input class="input" type="text" [(ngModel)]="getUserDetails.password">
+          </div>
+
+          <div>
+            <label>Phone Number</label>
+            <input class="input" type="text" [(ngModel)]="getUserDetails.mobilenumber">
+          </div>
+
+          <div class="gender-group">
+            <label>Gender</label>
+            <div class="gender-options" >
+              <label><input type="radio" name="gender"  value="male" [(ngModel)]="getUserDetails.gender"> Male</label>
+              <label><input type="radio" name="gender" value="female" [(ngModel)]="getUserDetails.gender"> Female</label>
+            </div>
+          </div>
+          <!-- <div>
+            <label>Is Active</label>
+            <input type="text" [(ngModel)]="getUserDetails.disabled">
+          </div> -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Account Settings -->
+    <section class="card">
+      <h2>Address</h2>
+
+      <div class="password-grid">
+        <div> 
+          <label>Street</label>
+          <input class="input" type="text" [(ngModel)]="address.street">
+        </div>
+
+        <div>
+          <label>City</label>
+          <input class="input" type="text" [(ngModel)]="address.city">
+        </div>
+
+        <div>
+          <label>State</label>
+          <input class="input" type="text" [(ngModel)]="address.state">
+        </div>
+
+        <div>
+          <label>Country</label>
+          <input class="input" type="text" [(ngModel)]="address.country">
+        </div>
+
+        <div>
+          <label>Pin Code</label>
+          <input class="input" type="text" [(ngModel)]="address.pinCode">
+        </div>
+      </div>
+
+      <div class="save">
+        <button (click)="updateUserDetails()">Save Changes</button>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+</html>
+

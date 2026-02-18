@@ -1,0 +1,120 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 120, 170, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal */
+.modal {
+  background: white;
+  width: 720px;
+  border-radius: 16px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+  padding: 25px;
+}
+
+/* Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  color: #333;
+}
+
+.close {
+  font-size: 20px;
+  cursor: pointer;
+  color: #999;
+}
+
+/* Body */
+.modal-body {
+  display: flex;
+  gap: 30px;
+}
+
+/* Image Section */
+.image-section {
+  width: 40%;
+  background: #f1f7fb;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.image-section img {
+  width: 100%;
+  max-width: 200px;
+  margin-bottom: 15px;
+}
+
+.change-img {
+  background: transparent;
+  border: none;
+  color: #0b8acb;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Form Section */
+.form-section {
+  width: 60%;
+}
+
+.form-section label {
+  font-size: 14px;
+  color: #555;
+  margin-top: 12px;
+  display: block;
+}
+
+.form-section input,
+.form-section select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.cancel {
+  background: #eaeaea;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.save {
+  background: linear-gradient(to right, #00b4d8, #0096c7);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}

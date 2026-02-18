@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main class="main">
+
+    <!-- Header -->
+    <header class="topbar">
+      <h1>Welcome, {{getAdminDetails.name}}</h1>
+      <div class="top-icons">
+        🔔 🔔 👤
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <section class="stats">
+      <div class="card">
+        <p>Total Users</p>
+        <h2>1,450</h2>
+      </div>
+      <div class="card">
+        <p>Total Orders</p>
+        <h2>320</h2>
+      </div>
+      <div class="card">
+        <p>Products</p>
+        <h2>120</h2>
+      </div>
+      <div class="card">
+        <p>Earnings</p>
+        <h2>$4,250</h2>
+      </div>
+    </section>
+
+    <!-- Content Grid -->
+    <section class="content">
+
+      <!-- Recent Orders -->
+      <div class="box">
+        <h3>Recent Orders</h3>
+        <table>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Status</th>
+            <th>Amount</th>
+          </tr>
+          <tr>
+            <td>QP-000</td>
+            <td>John Doe</td>
+            <td class="pending">Pending</td>
+            <td>$120.50</td>
+          </tr>
+          <tr>
+            <td>QP-020</td>
+            <td>Jane Smith</td>
+            <td class="completed">Completed</td>
+            <td>$75.00</td>
+          </tr>
+          <tr>
+            <td>QP-030</td>
+            <td>Michael Brown</td>
+            <td class="cancelled">Cancelled</td>
+            <td>$200.00</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Sales Overview -->
+      <div class="box">
+        <h3>Sales Overview</h3>
+        <div class="chart">
+          <div class="bar" style="height:40%"></div>
+          <div class="bar" style="height:60%"></div>
+          <div class="bar" style="height:55%"></div>
+          <div class="bar" style="height:75%"></div>
+          <div class="bar" style="height:65%"></div>
+          <div class="bar" style="height:85%"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Manage Section -->
+    <section class="manage">
+      <div class="manage-card">Manage Users</div>
+      <div class="manage-card">Manage Products</div>
+      <div class="manage-card">Manage Orders</div>
+    </section>
+
+  </main>
+</body>
+</html>
+

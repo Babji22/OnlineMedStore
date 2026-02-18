@@ -1,0 +1,219 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: #eef5fb;
+}
+
+/* Layout */
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  width: 83vw;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #0b8acb;
+  color: white;
+  padding: 20px;
+}
+
+.logo {
+  font-size: 38px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.sidebar li.active,
+.sidebar li:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* Main */
+.main {
+  flex: 1;
+  padding: 25px;
+}
+
+/* Header */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.icons {
+  font-size: 18px;
+}
+
+/* Cards */
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+  margin-bottom: 20px;
+}
+
+/* Profile */
+* Profile Section */
+.profile-section {
+  display: flex;
+  gap: 30px;
+}
+
+.avatar {
+  width: 180px;
+  text-align: center;
+}
+
+.avatar img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.avatar-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* .avatar button {
+  background: #0b8acb;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.profile-form {
+  flex: 1;
+} */
+
+/* .profile-form label {
+  display: block;
+  margin-top: 10px;
+  color: #555;
+}
+
+.profile-form input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+} */
+
+/* Account */
+.account-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.info-box {
+  background: #f1f7fb;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.info-box p {
+  color: #666;
+}
+
+.info-box h3 {
+  margin: 10px 0;
+  color: #0b8acb;
+}
+
+.positive {
+  color: #1e8449;
+  font-size: 14px;
+}
+
+/* Save */
+/* .save {
+  text-align: center;
+  margin-top: 25px;
+} */
+
+/* .save button {
+  background: linear-gradient(to right, #00b4d8, #0096c7);
+  color: white;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+} */
+
+.form-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.form-grid label,
+.password-grid label {
+  display: block;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.form-grid .input,
+.password-grid .input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+/* Password */
+.password-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Save */
+.save {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.save button {
+  background: linear-gradient(to right, #00b4d8, #0096c7);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}

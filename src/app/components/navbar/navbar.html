@@ -1,0 +1,25 @@
+<header class="header">
+    <div class="logo">🩺 <span>MediStore</span></div>
+    <nav>
+        <a routerlink="">Home</a>
+        <a routerLink="/login">Shop</a>
+        <a href="">Categories</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+    <div class="header-actions">
+         @if(memberId==0)
+            {
+            <button class="login-btn">
+                <a routerLink="/login">Login</a>
+            </button>
+            }
+        @else{
+                <button class="login-btn">
+                <a routerLink="/admin-dashBoard">{{memberName}}</a>
+                </button>
+            }
+        
+        <button class="cart-btn">🛒</button>
+    </div>
+</header>

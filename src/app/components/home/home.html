@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MediStore – Online Medical Store</title>
+</head>
+<body>
+
+<!-- Header -->
+<!-- <header class="header">
+    <div class="logo">🩺 <span>MediStore</span></div>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Shop</a>
+        <a href="#">Categories</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+    <div class="header-actions">
+        <button class="login-btn">Login</button>
+        <button class="cart-btn">🛒</button>
+    </div>
+</header> -->
+
+<header class="header">
+    <div class="logo">🩺 <span>MediStore</span></div>
+    <nav>
+        <a routerlink="">Home</a>
+        <a routerLink="/login">Shop</a>
+        <a href="">Categories</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+    <div class="header-actions">
+         @if(memberId==0)
+            {
+            <button class="login-btn">
+                <a routerLink="/login">Login</a>
+            </button>
+            }
+        @else{
+                <button class="login-btn">
+                <a routerLink="/admin-dashBoard">{{memberName}}</a>
+                </button>
+            }
+        
+        <button class="cart-btn">🛒</button>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <!-- <img [src]="banner" alt=""> -->
+    <div class="hero-text">
+        <h1>Your Trusted <br><span>Online Medical Store</span></h1>
+        <p>Get all your health needs delivered to your doorstep.</p>
+        <div class="hero-buttons">
+            <button class="primary-btn">Shop Now</button>
+            <button class="secondary-btn">Browse Categories</button>
+        </div>
+    </div>
+</section>
+<!-- Features -->
+<section class="features">
+    <div class="feature-card">💊 Up to 30% Off Medicines</div>
+    <div class="feature-card">🚚 Free & Fast Delivery</div>
+    <div class="feature-card">📞 24/7 Customer Support</div>
+</section>
+
+<!-- Categories -->
+<section class="categories">
+    <h2>Shop by Categories</h2>
+    <div class="category-grid">
+        <div class="categoryImage"><img src="../../../assets/p5.png" alt=""></div>
+        <div class="categoryImage"><img src="../../../assets/p4.png" alt=""></div>
+        <div class="categoryImage"><img src="../../../assets/p3.png" alt=""></div>
+        <div class="categoryImage"><img src="../../../assets/p2.png" alt=""></div>
+        <div class="category-card">Medicines</div>
+        <div class="category-card">Health Supplements</div>
+        <div class="category-card">Personal Care</div>
+        <div class="category-card">Medical Devices</div>
+    </div>
+</section>
+
+<!-- Best Sellers -->
+<section class="products">
+    <h2>Best Sellers</h2>
+    <div class="product-grid">
+        @for(drug of drugList(); track drug.id)
+        {
+            <div class="product-card">
+                <h3>{{drug.name}}</h3>
+                <p class="price">{{drug.price}}</p>
+                <button (click)="addToCart(drug.id)">Add to Cart</button>
+            </div>
+        }
+        <!-- <div class="product-card">
+            <h3>Vitamin C 1000mg</h3>
+            <p class="price">$15.50</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product-card">
+            <h3>Digital Thermometer</h3>
+            <p class="price">$8.99</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product-card">
+            <h3>BP Monitor</h3>
+            <p class="price">$39.99</p>
+            <button>Add to Cart</button>
+        </div> -->
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <!-- <p>© 2026 MediStore. All rights reserved.</p> -->
+</footer>
+
+</body>
+</html>
+

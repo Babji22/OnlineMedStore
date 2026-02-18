@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Orders</title>
+</head>
+<body>
+
+<div class="dashboard">
+
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Header -->
+    <header class="topbar">
+      <h1>Orders</h1>
+      <div class="icons">🔔 🔔 👤</div>
+    </header>
+
+    <p class="subtitle">Manage and track your recent orders.</p>
+
+    <!-- Orders Card -->
+    <section class="card">
+
+      <!-- Table Header -->
+      <div class="table-header">
+        <span>Order ID</span>
+        <span>Product Name</span>
+        <span>Date</span>
+        <span>Status</span>
+        <span>Total</span>
+        <span>Action</span>
+      </div>
+
+      @for(order of userOrderList(); track order.id)
+      {
+      <!-- Row -->
+      <div class="order-row">
+        <span>ORD-{{order.id}}</span>
+        <span>{{order.drugName}}</span>
+        <span>April 24, 2024</span>
+        <span class="status shipped">Shipped</span>
+        <span>{{order.orderAmount}}</span>
+        <!-- <button class="view">View Details</button> -->
+      </div>
+      }
+      
+
+      <!-- Summary -->
+      <div class="summary">
+        <div>
+          <p>Subtotal</p>
+          <p>Total</p>
+        </div>
+        <div>
+          <p>$55.00</p>
+          <p class="bold">$66.00</p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="actions">
+        <a href="#" class="continue">← Continue Shopping</a>
+
+        <div class="pagination">
+          <button>‹</button>
+          <span class="active-page">1</span>
+          <span>2</span>
+          <button>›</button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+</html>
+

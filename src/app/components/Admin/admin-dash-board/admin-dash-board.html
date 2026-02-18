@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+</head>
+<body>
+
+@if (service.member) {
+  <div class="dashboard">
+    <!-- Sidebar for Admin -->
+    <aside class="sidebar">
+      <h2 class="logo">+</h2>
+      <ul>
+        <li (click)="check('dashBoard')" [class.active]="data === 'dashBoard'">Dashboard</li>
+        <li (click)="check('users')">Users</li>
+        <li (click)="check('orders')">Orders</li>
+        <li (click)="check('products')">Products</li>
+        <li (click)="check('settings')">Settings</li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    @switch (data) {
+      @case ('dashBoard') {
+        <app-dash-board></app-dash-board>
+      }
+      @case ('users') {
+        <app-users></app-users>
+      }
+      @case ('orders') {
+        <app-orders></app-orders>
+      }
+      @case ('products') {
+        <app-products></app-products>
+      }
+      @case ('settings') {
+        <app-settings></app-settings>
+      }
+      @default {
+        <app-dash-board></app-dash-board>
+      }
+    }
+  </div>
+} @else {
+  <div class="dashboard">
+    <!-- Sidebar for User -->
+    <aside class="sidebar">
+      <div class="logo">+</div>
+      <ul>
+        <li (click)="check('dashboard')" [class.active]="data === 'dashboard'">Dashboard</li>
+        <li (click)="check('editProfile')">Edit Profile</li>
+        <li (click)="check('cart')">Cart <span class="badge">5</span></li>
+        <li (click)="check('orders')">Orders</li>
+        <li (click)="check('settings')">Settings</li>
+        <li (click)="check('logOut')">Log Out</li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    @switch (data) {
+      @case ('dashboard') {
+        <app-userdashboard></app-userdashboard>
+      }
+      @case ('editProfile') {
+        <app-edit-profile></app-edit-profile>
+      }
+      @case ('cart') {
+        <app-cart></app-cart>
+      }
+      @case ('orders') {
+        <app-userorders></app-userorders>
+      }
+      @case ('settings') {
+        <app-settings></app-settings>
+      }
+      @default {
+        <app-userdashboard></app-userdashboard>
+      }
+    }
+  </div>
+}
+
+  
+</body>
+</html>

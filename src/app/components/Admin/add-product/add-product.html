@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Product</title>
+</head>
+<body>
+
+
+
+<!-- Overlay -->
+<div class="overlay">
+
+  <!-- Modal -->
+  <div class="modal">
+
+    <!-- Header -->
+    <div class="modal-header">
+      <h2>Add Product</h2>
+      <span class="close">✕</span>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body">
+
+      <!-- Left Image -->
+      <div class="image-section">
+        <img src="assets/images/product.png" alt="Product">
+        <button class="change-img">Upload Image</button>
+      </div>
+
+      <!-- Form -->
+      <form class="form-section">
+
+        <label>Product Name</label>
+        <input type="text" [(ngModel)]="product.name" name="name">
+
+        <!-- <label>ID</label>
+        <input type="text" value="PID-{{product.id}}" readonly> -->
+
+        <label>Category </label>
+        <select [(ngModel)]="product.type" name="type">
+          <option>Medicines</option>
+          <option>Health Care</option>
+          <option>Supplements</option>
+        </select>
+
+        <label>Stock</label>
+        <select>
+          <option>In Stock</option>
+          <option>Low Stock</option>
+          <option>Out of Stock</option>
+        </select>
+
+        <label>Quantity</label>
+        <input type="number" [(ngModel)]="product.quantity" name="quantity">
+
+        <label>Price</label>
+        <input type="number" [(ngModel)]="product.price" name="price">
+
+        <!-- Buttons -->
+        <div class="actions">
+          <button type="button" class="cancel">Cancel</button>
+          <button type="submit" class="save" (click)="addProduct()">Add Product</button>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>

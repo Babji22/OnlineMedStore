@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin | Settings</title>
+</head>
+<body>
+
+<div class="dashboard">
+
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Header -->
+    <header class="topbar">
+      <h1>Settings</h1>
+      <div class="icons">🔔 🔔 👤</div>
+    </header>
+
+    <!-- Profile Settings -->
+    <section class="card">
+      <h2>Profile Settings</h2>
+
+      <div class="profile-section">
+
+        <!-- Avatar -->
+        <!-- <div class="avatar">
+          <img src="assets/images/profile.png" alt="Profile">
+          <div class="avatar-actions">
+            <button class="link">Upload New</button>
+            <button class="link danger">Remove</button>
+          </div>
+        </div> -->
+
+        <!-- Form -->
+        <div class="form-grid">
+          <div>
+            <label>Full Name</label>
+            <input class="input" type="text" [(ngModel)]="getAdminDetails.name">
+          </div>
+
+          <div>
+            <label>Email Address</label>
+            <input class="input" type="email" [(ngModel)]="getAdminDetails.email">
+          </div>
+
+          <div>
+            <label>Password</label>
+            <input class="input" type="password" [(ngModel)]="getAdminDetails.password">
+          </div>
+
+          <div>
+            <label>Phone Number</label>
+            <input class="input" type="text" [(ngModel)]="getAdminDetails.mobilenumber">
+          </div>
+
+          <div class="gender-group">
+            <label>Gender</label>
+            <div class="gender-options" >
+              <label><input type="radio" name="gender"  value="male" [(ngModel)]="getAdminDetails.gender"> Male</label>
+              <label><input type="radio" name="gender" value="female" [(ngModel)]="getAdminDetails.gender"> Female</label>
+            </div>
+          </div>
+          <!-- <div>
+            <label>Is Active</label>
+            <input type="text" [(ngModel)]="getUserDetails.disabled">
+          </div> -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Account Settings -->
+    <section class="card">
+      <h2>Account Settings</h2>
+
+      <div class="account-grid">
+
+        <div class="info-box">
+          <p>Password</p>
+          <h3>••••••••</h3>
+          <span class="positive">+2.5% this month</span>
+        </div>
+
+        <div class="info-box">
+          <p>Active Users</p>
+          <h3>1,250</h3>
+          <span class="positive">+15% from last month</span>
+        </div>
+
+        <div class="info-box">
+          <p>Total Earnings</p>
+          <h3>$12,540</h3>
+          <span class="positive">+13% this month</span>
+        </div>
+
+      </div>
+
+      <div class="save">
+        <button (click)="updateAdminDetails()">Save Changes</button>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+</html>

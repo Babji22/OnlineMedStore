@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin | Orders</title>
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <h1>Orders</h1>
+      <div class="icons">🔔 🔔 👤</div>
+    </header>
+
+    <!-- Controls -->
+    <section class="controls">
+      <div class="search-box">
+        🔍
+        <input type="text" placeholder="Search orders">
+      </div>
+      <!-- <button class="filter-btn">Filter ▼</button> -->
+    </section>
+
+    <!-- Orders Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Amount</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for(Order of orderList(); track Order.id)
+          {
+          <tr>
+            <td>QP-{{Order.id}}</td>
+            <td>{{Order.memberId}}</td>
+            <td>April 20, 2024</td>
+            <td><span class="status pending">Pending</span></td>
+            <td>{{Order.totalAmount}}</td>
+            <td>
+              <!-- <button class="edit">Edit</button> -->
+              <button class="delete" (click)="deleteOrder(Order.id)">Delete</button>
+            </td>
+          </tr>
+        }
+          <!-- <tr>
+            <td>QP-120</td>
+            <td>Jane Smith</td>
+            <td>April 19, 2024</td>
+            <td><span class="status completed">Completed</span></td>
+            <td>$75.00</td>
+            <td>
+              <button class="edit">Edit</button>
+              <button class="delete">Delete</button>
+            </td>
+          </tr> -->
+
+          <!-- <tr>
+            <td>QP-020</td>
+            <td>Michael Brown</td>
+            <td>April 18, 2024</td>
+            <td><span class="status completed">Completed</span></td>
+            <td>$200.00</td>
+            <td>
+              <button class="edit">Edit</button>
+              <button class="delete">Delete</button>
+            </td>
+          </tr> -->
+
+          <!-- <tr>
+            <td>QP-010</td>
+            <td>Sarah Wilson</td>
+            <td>April 17, 2024</td>
+            <td><span class="status cancelled">Cancelled</span></td>
+            <td>$50.00</td>
+            <td>
+              <button class="edit">Edit</button>
+              <button class="delete">Delete</button>
+            </td>
+          </tr> -->
+
+          <!-- <tr>
+            <td>QP-110</td>
+            <td>David Miller</td>
+            <td>April 16, 2024</td>
+            <td><span class="status pending">Pending</span></td>
+            <td>$95.00</td>
+            <td>
+              <button class="edit">Edit</button>
+              <button class="delete">Delete</button>
+            </td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>

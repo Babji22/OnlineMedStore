@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping Cart</title>
+  <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+
+<div class="dashboard">
+
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Header -->
+    <header class="topbar">
+      <h1>Shopping Cart</h1>
+      <div class="icons">🔔 🔔 👤</div>
+    </header>
+
+    <p class="subtitle">Review your items and proceed to checkout.</p>
+
+    <!-- Cart Table -->
+    <section class="card">
+
+      <div class="table-header">
+        <span>Product</span>
+        <span>Quantity</span>
+        <span>Price</span>
+        <span>Total</span>
+      </div>
+
+      <!-- Item -->
+      @for(cartItem of cartProducts(); track cartItem.cartId)
+      {
+      
+      <div class="cart-item">
+      <!-- <input type="checkbox" name="" id="check"> -->
+        <div class="product">
+          <img src="assets/images/product1.png" alt="">
+          <div>
+            <h4>{{cartItem.drugName}}</h4>
+            <small>300mg</small>
+          </div>
+        </div>
+
+        <div class="qty">
+          <button>-</button>
+          <span>{{cartItem.quantity}}</span>
+          <button>+</button>
+        </div>
+
+        <div class="price">{{cartItem.price}}</div>
+        <div class="total">{{cartItem.price * cartItem.quantity}}</div>
+      </div>
+      }
+      <!-- Item -->
+      <!-- <div class="cart-item">
+        <div class="product">
+          <img src="assets/images/product2.png" alt="">
+          <div>
+            <h4>Digital Thermometer</h4>
+            <small>$15.00</small>
+          </div>
+        </div>
+
+        <div class="qty">
+          <button>-</button>
+          <span>2</span>
+          <button>+</button>
+        </div>
+
+        <div class="price">$15.00</div>
+        <div class="total">$30.00</div>
+      </div> -->
+
+      <!-- Item -->
+      <!-- <div class="cart-item">
+        <div class="product">
+          <img src="assets/images/product3.png" alt="">
+          <div>
+            <h4>Blister Pack Tablets</h4>
+            <small>60 tablets</small>
+          </div>
+        </div>
+
+        <div class="qty">
+          <button>-</button>
+          <span>2</span>
+          <button>+</button>
+        </div>
+
+        <div class="price">$8.00</div>
+        <div class="total">$16.00</div>
+      </div> -->
+
+      <!-- Summary -->
+      <!-- <div class="summary">
+        <div>
+          <p>Subtotal</p>
+          <p>Total</p>
+        </div>
+        <div>
+          <p>$56.00</p>
+          <p class="bold">$56.00</p>
+        </div>
+      </div> -->
+
+      <!-- Actions -->
+      <div class="actions">
+        <a href="#" class="continue">← Continue Shopping</a>
+        <button class="checkout" (click)="placeOrder()" >Proceed to Checkout</button>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+</html>

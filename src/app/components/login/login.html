@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MediStore | Login</title>
+</head>
+<body>
+
+<!-- HEADER -->
+<!-- <header class="header">
+  <div class="logo">🩺 <span>MediStore</span></div>
+  <nav>
+    <a class="active">Home</a>
+    <a>Shop</a>
+    <a>Categories</a>
+    <a>About Us</a>
+    <a>Contact</a>
+  </nav>
+  <div class="cart">🛒</div>
+</header> -->
+
+<!-- BANNER -->
+<section class="banner">
+  <div class="banner-content">
+    <h1>Login to Your Account</h1>
+    <p>Please choose your account type and enter your login details:</p>
+
+    <!-- SWITCH -->
+    <div class="switch-container">
+      <span >User</span>
+      <label class="switch">
+        <input type="checkbox" id="roleSwitch" [(ngModel)]="member">
+        <span class="slider"></span>
+      </label>
+      <span [(ngModel)]="member">Admin</span>
+    </div>
+  </div>
+</section>
+
+<!-- LOGIN CARD -->
+<section class="login-section">
+  <div class="login-card">
+
+    <h2>Login</h2>
+
+    <div class="input-group">
+      <span class="icon">✉️</span>
+      <input type="email" name="email" [(ngModel)]="userEmail" placeholder="Email Address">
+    </div>
+
+    <div class="input-group">
+      <span class="icon">🔒</span>
+      <input type="password" name="password" [(ngModel)]="userPassword" placeholder="Password">
+    </div>
+
+    <div class="forgot">
+      <a href="#">Forgot password?</a>
+    </div>
+
+    <button class="login-btn" (click)="loginData()">Login</button>
+
+    <p class="signup">
+      Don't have an account?
+      <a routerLink="/signin" >Sign Up</a>
+    </p>
+
+  </div>
+</section>
+
+</body>
+</html>

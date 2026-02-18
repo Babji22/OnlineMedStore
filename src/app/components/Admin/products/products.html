@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin | Products</title>
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- Sidebar -->
+
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Header -->
+    <header class="topbar">
+      <h1>Products</h1>
+      <div class="icons">🔔 🔔 👤</div>
+    </header>
+
+    <!-- Controls -->
+    <section class="controls">
+      <div class="search-box">
+        🔍
+        <input type="text" placeholder="Search products">
+      </div>
+      <button class="add-btn"><a routerLink="/add-product"> + Add Product</a></button>
+    </section>
+
+    <!-- Products Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Stock</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for(item of productList(); track item.id)
+          {
+          <tr>
+            <td>PID-{{item.id}}</td>
+            <td class="product">
+              <img src="assets/images/product.png" alt="">
+              {{item.name}}
+            </td>
+            <td>Medicines</td>
+            <td><span class="stock in">In Stock</span></td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.price}}</td>
+            <td>
+              <button class="edit" (click)="productEdit(item.id)">Edit</button>
+              <button class="delete" (click)="deleteProduct(item.id)">Delete</button>
+            </td>
+          </tr>
+          @if(data!=0)
+          {
+          <app-products-edit></app-products-edit>
+          }
+          }
+
+         
+
+          <!-- <tr>
+            <td>PID-120</td>
+            <td class="product">
+              <img src="assets/images/product.png" alt="">
+              Cough Syrup
+            </td>
+            <td>Products</td>
+            <td><span class="stock low">Low Stock</span></td>
+            <td>$7.50</td>
+            <td>
+              <button class="edit">Edit</button>
+              <button class="delete">Delete</button>
+            </td>
+          </tr> -->
+
+          <!-- <tr>
+            <td>PID-020</td>
+            <td class="product">
+              <img src="assets/images/product.png" alt="">
+              Multivitamin Tablets
+            </td>
+            <td>Medicines</td>
+            <td><span class="stock out">Out of Stock</span></td>
+            <td>$20.00</td>
+            <td>
+              <button class="edit">Edit</button>
+              <button class="delete">Delete</button>
+            </td>
+          </tr>
+
+          <tr>
+            <td>PID-010</td>
+            <td class="product">
+              <img src="assets/images/product.png" alt="">
+              Antibiotic Cream
+            </td>
+            <td>Stream</td>
+            <td><span class="stock low">Low Stock</span></td>
+            <td>$15.00</td>
+            <td>
+              <button class="edit">Edit</button>
+              <button class="delete">Delete</button>
+            </td>
+          </tr> -->
+
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>
